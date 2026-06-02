@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Universal Dark Mode - Instant eye comfort on any website</title>
+  <meta name="description" content="A powerful and lightweight Chrome extension that enables smooth, customized dark mode on any website with a single click. High-fidelity inversion with smart image and video protection.">
+  
+  <!-- Modern Typography & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg: #07080d;
+      --card-bg: rgba(22, 24, 37, 0.7);
+      --card-border: rgba(99, 102, 241, 0.15);
+      --primary: #6366f1;
+      --primary-glow: rgba(99, 102, 241, 0.4);
+      --accent: #8b5cf6;
+      --text: #ffffff;
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Outfit', sans-serif;
+      overflow-x: hidden;
+      min-height: 100vh;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 40%);
+    }
+
+    /* Premium Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0b0c14;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #23253b;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--primary);
+    }
+
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Header */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.3rem;
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .logo span.icon {
+      color: var(--primary);
+      font-size: 1.8rem;
+      animation: pulse 3s infinite alternate;
+    }
+
+    .btn-github {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text);
+      padding: 10px 18px;
+      border-radius: 9999px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .btn-github:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: var(--primary);
+      box-shadow: 0 0 15px rgba(99, 102, 241, 0.2);
+    }
+
+    /* Hero Section */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      padding: 80px 0;
+      align-items: center;
+    }
+
+    @media (max-width: 968px) {
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        padding: 40px 0;
+        text-align: center;
+      }
+    }
+
+    .hero-content h1 {
+      font-size: 3.5rem;
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 24px;
+      letter-spacing: -1px;
+      background: linear-gradient(135deg, #ffffff 40%, #a5b4fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    @media (max-width: 576px) {
+      .hero-content h1 {
+        font-size: 2.5rem;
+      }
+    }
+
+    .hero-content p.subtitle {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 36px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+
+    @media (max-width: 968px) {
+      .hero-actions {
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .hero-actions {
+        flex-direction: column;
+      }
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+      color: #fff;
+      padding: 14px 28px;
+      border-radius: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      box-shadow: 0 4px 20px var(--primary-glow);
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(99, 102, 241, 0.6);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: rgba(22, 24, 37, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text);
+      padding: 14px 28px;
+      border-radius: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(22, 24, 37, 0.8);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Key Features Mini List */
+    .features-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 576px) {
+      .features-list {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      text-align: left;
+    }
+
+    .feature-icon-wrapper {
+      background: rgba(99, 102, 241, 0.1);
+      border: 1px solid rgba(99, 102, 241, 0.2);
+      border-radius: 8px;
+      padding: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+    }
+
+    .feature-item h4 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .feature-item p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* Mock Browser Section */
+    .browser-container {
+      position: relative;
+      width: 100%;
+      height: 520px;
+      background: #0b0d19;
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 40px rgba(99, 102, 241, 0.1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Browser Bar */
+    .browser-navbar {
+      height: 48px;
+      background: #111322;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      gap: 16px;
+      z-index: 10;
+    }
+
+    .browser-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .browser-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #333;
+    }
+
+    .browser-dot.red { background: #ef4444; }
+    .browser-dot.yellow { background: #f59e0b; }
+    .browser-dot.green { background: #10b981; }
+
+    .browser-address {
+      flex: 1;
+      height: 28px;
+      background: #07080f;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      gap: 8px;
+    }
+
+    .browser-address span.lock {
+      font-size: 0.9rem;
+      color: #10b981;
+    }
+
+    .browser-extensions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: relative;
+    }
+
+    .browser-btn {
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      transition: color 0.2s;
+    }
+
+    .browser-btn:hover {
+      color: #fff;
+    }
+
+    .extension-badge {
+      position: relative;
+      padding: 4px;
+      background: rgba(99, 102, 241, 0.1);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      border-radius: 4px;
+      color: var(--primary);
+    }
+
+    /* Pointer/Hint Overlay */
+    .interactive-hint {
+      position: absolute;
+      top: 50px;
+      right: 180px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+      color: white;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      z-index: 100;
+      animation: bounce 2s infinite;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .interactive-hint::after {
+      content: '';
+      position: absolute;
+      top: 12px;
+      right: -8px;
+      border-width: 8px 0 8px 8px;
+      border-style: solid;
+      border-color: transparent transparent transparent var(--accent);
+    }
+
+    /* Browser Content Panels */
+    .browser-content {
+      flex: 1;
+      position: relative;
+      background: #fff;
+      display: flex;
+    }
+
+    .demo-frame {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #ffffff;
+    }
+
+    /* Floating Extension Panel */
+    .extension-popup-panel {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 300px;
+      height: 250px;
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      z-index: 20;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .extension-popup-panel.hidden {
+      opacity: 0;
+      transform: scale(0.9) translateY(-10px);
+      pointer-events: none;
+    }
+
+    .popup-frame {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* Extra Showcase Info Details */
+    .feature-showcase {
+      padding: 80px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .showcase-header {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto 60px auto;
+    }
+
+    .showcase-header h2 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .showcase-header p {
+      color: var(--text-muted);
+      font-family: 'Inter', sans-serif;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+    }
+
+    @media (max-width: 968px) {
+      .cards-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 32px;
+      text-align: left;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(99, 102, 241, 0.4);
+      box-shadow: 0 10px 30px rgba(99, 102, 241, 0.05);
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .card-icon {
+      background: rgba(99, 102, 241, 0.15);
+      border-radius: 12px;
+      padding: 10px;
+      width: fit-content;
+      color: var(--primary);
+      margin-bottom: 24px;
+    }
+
+    .card h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .card p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      line-height: 1.5;
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* Footer Section */
+    footer.main-footer {
+      padding: 40px 0;
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    /* Animations */
+    @keyframes pulse {
+      0% { transform: scale(1); filter: drop-shadow(0 0 2px var(--primary-glow)); }
+      100% { transform: scale(1.1); filter: drop-shadow(0 0 10px var(--primary)); }
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(-8px); }
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <a href="#" class="logo">
+        <span class="material-icons-round icon">dark_mode</span>
+        <span>Universal Dark Mode</span>
+      </a>
+      <a href="https://github.com/vijaymahes9080/dark-mode-for-any-websites_extension" target="_blank" class="btn-github">
+        <svg height="20" width="20" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
+        </svg>
+        <span>GitHub</span>
+      </a>
+    </header>
+
+    <!-- Hero Area -->
+    <section class="hero">
+      <div class="hero-content">
+        <h1>Turn the lights down on any website.</h1>
+        <p class="subtitle">
+          Experience clean, eye-friendly dark mode across the entire web. Our advanced media protection ensures photos, videos, and dynamic graphics look natural while text and panels invert smoothly.
+        </p>
+        
+        <div class="hero-actions">
+          <a href="#demo" class="btn-primary">
+            <span class="material-icons-round">play_arrow</span>
+            <span>Try Live Demo</span>
+          </a>
+          <a href="https://github.com/vijaymahes9080/dark-mode-for-any-websites_extension" target="_blank" class="btn-secondary">
+            <span class="material-icons-round">download</span>
+            <span>Get Code</span>
+          </a>
+        </div>
+
+        <!-- Key features grid -->
+        <div class="features-list">
+          <div class="feature-item">
+            <div class="feature-icon-wrapper">
+              <span class="material-icons-round">remove_red_eye</span>
+            </div>
+            <div>
+              <h4>Smart Media Safe</h4>
+              <p>Inverts pages while preserving images, videos, and canvas colors naturally.</p>
+            </div>
+          </div>
+          
+          <div class="feature-item">
+            <div class="feature-icon-wrapper">
+              <span class="material-icons-round">bolt</span>
+            </div>
+            <div>
+              <h4>Instant Inversion</h4>
+              <p>Highly optimized script runs at document-start to prevent white flashes.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Mockup Showcase -->
+      <div class="browser-mockup-wrapper" id="demo">
+        <div class="browser-container">
+          <!-- Toolbar -->
+          <div class="browser-navbar">
+            <div class="browser-dots">
+              <div class="browser-dot red"></div>
+              <div class="browser-dot yellow"></div>
+              <div class="browser-dot green"></div>
+            </div>
+            <div class="browser-address">
+              <span class="material-icons-round lock">lock</span>
+              <span>https://techinsights.com/visual-ergonomics-darkmode</span>
+            </div>
+            <div class="browser-extensions">
+              <span class="material-icons-round browser-btn">extension</span>
+              <!-- Glowing toggle button representing the extension -->
+              <span class="material-icons-round browser-btn extension-badge" id="btn-toggle-popup" title="Toggle Extension Menu">dark_mode</span>
+              
+              <!-- Floating hint pointing to toggle extension popup -->
+              <div class="interactive-hint" id="glowing-hint">
+                <span>Toggle Extension Popup</span>
+                <span class="material-icons-round">west</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sandbox Area -->
+          <div class="browser-content">
+            <!-- Simulated Article Frame -->
+            <iframe class="demo-frame" id="demo-iframe" src="demo-article.html"></iframe>
+            
+            <!-- Simulated Chrome Extension Popup (loads popup.html in iframe) -->
+            <div class="extension-popup-panel" id="extension-panel">
+              <iframe class="popup-frame" id="popup-iframe" src="popup.html"></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Additional Feature Cards -->
+    <section class="feature-showcase">
+      <div class="showcase-header">
+        <h2>Built with Modern Principles</h2>
+        <p>Simple interface on the outside, advanced intelligent inversion processing on the inside.</p>
+      </div>
+
+      <div class="cards-grid">
+        <div class="card">
+          <div class="card-icon">
+            <span class="material-icons-round">extension</span>
+          </div>
+          <h3>Manifest V3 Compliant</h3>
+          <p>Adheres strictly to the latest Chrome Extension security standards, ensuring optimal security, reliability, and lightweight footprint.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">
+            <span class="material-icons-round">sd_card</span>
+          </div>
+          <h3>Local Preferences</h3>
+          <p>Uses chrome.storage.local to automatically remember your dark mode settings across tabs and browser restarts.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">
+            <span class="material-icons-round">auto_awesome</span>
+          </div>
+          <h3>Media Exclusions</h3>
+          <p>Explicit CSS inversion rules protect SVG vectors, icons, images, canvas diagrams, and embed files from turning negative.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer class="main-footer">
+    <div class="container">
+      <p>© 2026 Universal Dark Mode. Open Source Chrome Extension.</p>
+    </div>
+  </footer>
+
+  <!-- Cross-Iframe Message Router -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const togglePopupBtn = document.getElementById('btn-toggle-popup');
+      const extensionPanel = document.getElementById('extension-panel');
+      const glowingHint = document.getElementById('glowing-hint');
+      const demoIframe = document.getElementById('demo-iframe');
+      const popupIframe = document.getElementById('popup-iframe');
+
+      // Click extension icon to toggle popup visibility
+      togglePopupBtn.addEventListener('click', () => {
+        extensionPanel.classList.toggle('hidden');
+        glowingHint.style.display = 'none';
+      });
+
+      // Hide hint when clicking inside any iframe
+      window.addEventListener('click', () => {
+        glowingHint.style.display = 'none';
+      });
+
+      // Route message from popup iframe to demo article iframe
+      window.addEventListener('message', (event) => {
+        // Intercept messages from the chrome api mock running in the frames
+        if (event.data && event.data.source === 'chrome-api-mock') {
+          console.log("Main Window: Intercepted Mock Message", event.data);
+          
+          // Hide hint when user first interacts with the toggle inside popup
+          if (event.data.type === 'TAB_MESSAGE') {
+            glowingHint.style.display = 'none';
+            
+            // Broadcast message down to the article iframe to enable/disable CSS inversion
+            if (demoIframe && demoIframe.contentWindow) {
+              demoIframe.contentWindow.postMessage(event.data, '*');
+            }
+          }
+        }
+      });
+      
+      // Sync initial state from localStorage into the article frame on load
+      demoIframe.addEventListener('load', () => {
+        const isEnabled = localStorage.getItem('udm_darkModeEnabled') === 'true';
+        if (demoIframe.contentWindow) {
+          demoIframe.contentWindow.postMessage({
+            source: 'chrome-api-mock',
+            type: 'TAB_MESSAGE',
+            message: {
+              type: 'TOGGLE_DARK_MODE',
+              enabled: isEnabled
+            }
+          }, '*');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Universal Dark Mode Demo Article</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --font-family: 'Outfit', sans-serif;
+      --bg-color: #ffffff;
+      --text-color: #1e293b;
+      --text-muted: #64748b;
+      --accent: #6366f1;
+      --border-color: #e2e8f0;
+      --card-bg: #f8fafc;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-family);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+      padding: 24px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .article-header {
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 16px;
+    }
+
+    .category {
+      display: inline-block;
+      background-color: rgba(99, 102, 241, 0.1);
+      color: var(--accent);
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      line-height: 1.25;
+      margin-bottom: 12px;
+    }
+
+    .meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    }
+
+    .featured-media {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 24px;
+      border: 1px solid var(--border-color);
+      height: 180px;
+      background: #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* We use a beautiful CSS illustration representing space/night to serve as the image */
+    .featured-illustration {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, #0f172a 0%, #1e1b4b 50%, #311042 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .featured-illustration::before {
+      content: '';
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      background: radial-gradient(circle, #fde047 0%, rgba(253, 224, 71, 0) 70%);
+      border-radius: 50%;
+      top: 30px;
+      right: 40px;
+      opacity: 0.8;
+    }
+
+    .featured-illustration::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: radial-gradient(ellipse at bottom, #4f46e5 0%, rgba(79, 70, 229, 0) 80%);
+      opacity: 0.5;
+    }
+
+    .illustration-label {
+      position: absolute;
+      bottom: 12px;
+      left: 12px;
+      background: rgba(15, 23, 42, 0.6);
+      color: white;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      backdrop-filter: blur(4px);
+    }
+
+    p {
+      margin-bottom: 16px;
+      font-size: 0.95rem;
+      color: var(--text-color);
+    }
+
+    .highlight-box {
+      background-color: var(--card-bg);
+      border-left: 4px solid var(--accent);
+      padding: 16px;
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 20px;
+      font-style: italic;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .gallery-item {
+      height: 100px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+      font-size: 0.8rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+    }
+
+    .item-1 {
+      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    }
+
+    .item-2 {
+      background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+    }
+
+    .item-label {
+      position: absolute;
+      bottom: 8px;
+      left: 8px;
+      background: rgba(0,0,0,0.5);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.65rem;
+    }
+
+    .badge-container {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .badge {
+      font-size: 0.75rem;
+      padding: 4px 8px;
+      border-radius: 6px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+  <article>
+    <div class="article-header">
+      <span class="category">Tech Insights</span>
+      <h1>Why Dark Mode is Crucial for Visual Ergonomics</h1>
+      <div class="meta">
+        <div class="avatar"></div>
+        <div>
+          <strong>Vijay Mahesh</strong>
+          <span style="margin: 0 4px;">•</span>
+          <span>June 2, 2026</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="featured-media">
+      <!-- We mark this element with style background-image and it's also a media container -->
+      <div class="featured-illustration" style="background-image: linear-gradient(45deg, #0f172a 0%, #1e1b4b 50%, #311042 100%);" title="Illustration representing Night Sky"></div>
+      <span class="illustration-label">Media Safe Image Inversion</span>
+    </div>
+
+    <p>
+      In our highly digitized world, we spend an average of 7+ hours looking at screens daily. The harsh glow of white backgrounds emitted by default website themes can cause significant eye strain, dry eyes, and headaches. 
+    </p>
+
+    <div class="highlight-box">
+      "Transitioning to a high-contrast dark theme reduces screen luminescence, balances ambient contrast, and lessens cognitive fatigue during late-night browsing sessions."
+    </div>
+
+    <p>
+      <strong>Universal Dark Mode</strong> works instantly on any website. Unlike extensions that simple invert every color blindly—which turns photos into creepy negatives and ruins colors—our advanced CSS engine targets text, background, and structures, while leaving images, videos, and canvas elements visually natural.
+    </p>
+
+    <div class="gallery">
+      <div class="gallery-item item-1">
+        <span class="item-label">UI Component</span>
+      </div>
+      <div class="gallery-item item-2">
+        <span class="item-label">Graphics Canvas</span>
+      </div>
+    </div>
+
+    <div class="badge-container">
+      <span class="badge">#VisualHealth</span>
+      <span class="badge">#Aesthetics</span>
+      <span class="badge">#DarkMode</span>
+    </div>
+  </article>
+
+  <!-- Injecting Extension Scripts to allow it to be driven by the popup iframe -->
+  <script src="scripts/mock-chrome.js"></script>
+  <script src="content.js"></script>
+</body>
+</html>
